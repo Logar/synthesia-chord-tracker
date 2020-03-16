@@ -1,24 +1,25 @@
-<div class="card">
+<div class="song-component card">
   <h4 class="card-header">Songs</h4>
   <div class="card-body">
     <!-- Rounded switch -->
-    <div class="flex row">
-      <div>
-        <label for="toggle-edit-switch">Toggle Editing: </label>
+    <div class="edit-menu">
+      <div class="edit-section">
+        <div>
+          <label for="toggle-edit-switch">Edit Mode: </label>
+        </div>
         <label id="toggle-edit-switch" class="switch">
           <input type="checkbox" [(ngModel)]="toggleEditMode">
           <span class="slider round"></span>
         </label>
       </div>
-      <div>
-        <div></div>
-        <button *ngIf="toggleEditMode" type="button" (click)="addTimeEntry()">
-          Add Time
-        </button>
-      </div>
-      <div>
-        <label for="playback">Playback speed</label>
-        <select id="playback" (change)="onChangeSpeed($event)">
+      <div class="edit-section">
+        <div>
+          <label for="playback">Playback speed</label>
+        </div>
+        <select
+                id="playback"
+                class="btn btn-info selectpicker show-tick" 
+                (change)="onChangeSpeed($event)">
           <option value="0.25">0.25</option>
           <option value="0.50">0.50</option>
           <option value="0.75">0.75</option>
@@ -26,10 +27,25 @@
         </select>
       </div>
     </div>
-    <video #video id="song1" (timeupdate)="onVideoTimeUpdate()" class="center" width="640" height="360" [controls]="true" [muted]="true">
+    <div>
+      <button
+              *ngIf="toggleEditMode"
+              type="button" 
+              (click)="addTimeEntry()" 
+              class="btn btn-primary">
+        Add Time
+      </button>
+    </div>
+    <video
+            #video 
+            id="song1" 
+            (timeupdate)="onVideoTimeUpdate()"
+            class="video"
+            [controls]="true"
+            [muted]="true">
       <!-- original resolution = 1280 x 720 -->
       <source src="assets/videos/song1.mp4" type="video/mp4">
-      <track src="assets/vtt/song1.vtt" label="English" kind="subtitles" srclang="en" default>
+      <!--<track src="assets/vtt/song1.vtt" label="English" kind="subtitles" srclang="en" default>-->
       Your browser does not support the video tag.
     </video>
 </div>
