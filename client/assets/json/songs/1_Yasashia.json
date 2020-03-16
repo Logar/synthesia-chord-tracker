@@ -16,9 +16,9 @@
         {
             "order": 2,
             "type":"chord",
-            "root": "Bb",
-            "bass": "F",
-            "quality": "Maj7",
+            "root": "C",
+            "bass": "",
+            "quality": "7",
             "alias": "",
             "diatonic": true,
             "numeral": ""
