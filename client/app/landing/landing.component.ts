@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 import { SongService } from '../services/song.service';
+import { Song } from '../shared/models/song.model';
 
 @Component({
   selector: 'app-landing',
@@ -11,25 +12,36 @@ import { SongService } from '../services/song.service';
 export class LandingComponent implements OnInit {
 
   constructor(private _songService: SongService) { }
-  @ViewChild('video') video: ElementRef
   
-  songData = { chords: [] }
-  toggleMapMode = true;
+  // Access video DOM
+  @ViewChild('video') video: ElementRef;
+  // Create a new song model
+  songModel = new Song();
 
-  ngOnInit() {
-    this._songService.getJSON().subscribe(
-      res => Object.assign(this.songData, res),
+  // Toggle for editing chord data
+  toggleEditMode: boolean = false;
+
+  public ngOnInit(): void {
+    // @fix change to a variable path 
+    let path = '../../assets/json/songs/1_Yasashia.json';
+    this._songService.getJSON(path).subscribe(
+      res => Object.assign(this.songModel, res),
       error => console.log(error)
     );
-    console.log(this.songData)
+    console.log("Got song: ", this.songModel);
+  }
+  
+  public addTimeEntry(): void {
+    console.log("Clicked add time entry");
   }
 
-  onChangeSpeed(event) {
+  public onChangeSpeed(event): void {
     this.video.nativeElement.playbackRate = event.target.value;
   }
 
-  onVideoTimeUpdate() {
-    let currentTime = this.video.nativeElement.currentTime
-    this.songData.chords.filter(currentTime)
+  public onVideoTimeUpdate(): void {
+    let currentTime = this.video.nativeElement.currentTime;
+    console.log("Current Video Time", currentTime);
   }
+
 }

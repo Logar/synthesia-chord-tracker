@@ -1,0 +1,27 @@
+{
+    "title": "Yasashia",
+    "key": "Bb Lydian",
+    "chords":
+    [
+        {
+            "order": 1,
+            "type":"chord",
+            "root": "Bb",
+            "bass": "F",
+            "quality": "Maj7",
+            "alias": "",
+            "diatonic": true,
+            "numeral": ""
+        },
+        {
+            "order": 2,
+            "type":"chord",
+            "root": "Bb",
+            "bass": "F",
+            "quality": "Maj7",
+            "alias": "",
+            "diatonic": true,
+            "numeral": ""
+        }
+    ]
+}

@@ -4,11 +4,17 @@
     <!-- Rounded switch -->
     <div class="flex row">
       <div>
-        <label for="toggle-map-switch">Toggle Mapping: </label>
-        <label id="toggle-map-switch" class="switch">
-          <input type="checkbox" [(ngModel)]="toggleMapMode">
+        <label for="toggle-edit-switch">Toggle Editing: </label>
+        <label id="toggle-edit-switch" class="switch">
+          <input type="checkbox" [(ngModel)]="toggleEditMode">
           <span class="slider round"></span>
         </label>
+      </div>
+      <div>
+        <div></div>
+        <button *ngIf="toggleEditMode" type="button" (click)="addTimeEntry()">
+          Add Time
+        </button>
       </div>
       <div>
         <label for="playback">Playback speed</label>
