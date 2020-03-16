@@ -4,12 +4,12 @@ import { SongService } from '../services/song.service';
 import { Song } from '../shared/models/song.model';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss'],
+  selector: 'app-song',
+  templateUrl: './song.component.html',
+  styleUrls: ['./song.component.scss'],
   providers: [SongService]
 })
-export class LandingComponent implements OnInit {
+export class SongComponent implements OnInit {
 
   constructor(private _songService: SongService) { }
   

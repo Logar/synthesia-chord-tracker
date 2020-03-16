@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
-import { LandingComponent } from './landing/landing.component';
+import { SongComponent } from './song/song.component';
 import { CatsComponent } from './cats/cats.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
@@ -16,7 +16,7 @@ import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent },
+  { path: '', component: SongComponent },
   { path: 'about', component: AboutComponent },
   { path: 'cats', component: CatsComponent },
   { path: 'register', component: RegisterComponent },
