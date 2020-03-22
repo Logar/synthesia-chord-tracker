@@ -1,5 +1,5 @@
 <div class="song-component card">
-  <h4 class="card-header">Songs</h4>
+  <h1 class="card-header">Songs</h1>
   <div class="card-body">
     <!-- Rounded switch -->
     <div class="edit-menu">
@@ -8,7 +8,10 @@
           <label for="toggle-edit-switch">Edit Mode: </label>
         </div>
         <label id="toggle-edit-switch" class="switch">
-          <input type="checkbox" [(ngModel)]="toggleEditMode">
+          <input
+                  type="checkbox"
+                  [(ngModel)]="toggleEditMode"
+                  (change)="onToggleEditMode()">
           <span class="slider round"></span>
         </label>
       </div>
@@ -27,14 +30,8 @@
         </select>
       </div>
     </div>
-    <div>
-      <button
-              *ngIf="toggleEditMode"
-              type="button" 
-              (click)="addTimeEntry()" 
-              class="btn btn-primary">
-        Add Time
-      </button>
+    <div *ngIf="toggleEditMode">
+      <chord-form [videoTime]="videoTime" [songID]="songID"></chord-form>
     </div>
     <video
             #video 
