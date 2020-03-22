@@ -1,6 +1,7 @@
 // Angular
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
+import { FormsModule }   from '@angular/forms';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
@@ -15,6 +16,7 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
 import { AppComponent } from './app.component';
 import { SongComponent } from './song/song.component';
+import { ChordFormComponent } from './chord-form/chord-form.component';
 import { CatsComponent } from './cats/cats.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
@@ -39,11 +41,13 @@ export function tokenGetter() {
     LogoutComponent,
     AccountComponent,
     AdminComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ChordFormComponent
   ],
   imports: [
     AppRoutingModule,
     SharedModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,

@@ -1,0 +1,73 @@
+<div class="chord-form">
+  <div class="container">
+    <h2>Add a Chord</h2>
+    <form
+          #chordForm="ngForm"
+          id="add-chord-form"
+          (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="timestamp">
+          Video Timestamp: {{videoTime}}
+        </label>
+      </div>
+      <div class="form-group grid-container">
+        <label for="root-input">Root</label>
+        <input
+                type="text"
+                class="form-control"
+                id="root-input"
+                required
+                [(ngModel)]="chordModel.chord.root"
+                name="root">
+      </div>
+      <div class="form-group grid-container">
+        <label for="bass-input">Bass</label>
+        <input
+                type="text"
+                class="form-control"
+                id="bass-input"
+                required
+                [(ngModel)]="chordModel.chord.bass"
+                name="bass">
+      </div>
+      <div class="form-group grid-container">
+        <label for="quality-input">Quality</label>
+        <input
+                type="text"
+                class="form-control"
+                id="quality-input"
+                required
+                [(ngModel)]="chordModel.chord.quality"
+                name="quality">
+      </div>
+      <div class="form-group grid-container">
+        <label for="numeral-input">Numeral</label>
+        <input
+                type="text"
+                class="form-control"
+                id="numeral-input"
+                required
+                [(ngModel)]="chordModel.chord.numeral"
+                name="numeral">
+      </div>
+      <div class="form-group grid-container">
+        <label for="alias-input">Alias</label>
+        <input
+                type="text"
+                class="form-control"
+                id="alias-input"
+                required
+                [(ngModel)]="chordModel.chord.alias"
+                name="alias">
+      </div>
+      <div id="submit-container">
+        <button
+                type="submit" 
+                class="btn btn-success"
+                [disabled]="!chordForm.form.valid">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
