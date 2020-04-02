@@ -1,15 +1,17 @@
 // Angular
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 // Services
+import { AppState } from './app.state';
 import { CatService } from './services/cat.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { SongService } from './services/song.service';
+import { ChordService } from './services/chord.service';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 
@@ -61,7 +63,9 @@ export function tokenGetter() {
     AuthGuardAdmin,
     CatService,
     UserService,
-    SongService
+    SongService,
+    ChordService,
+    AppState
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
