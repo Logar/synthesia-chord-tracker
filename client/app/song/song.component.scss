@@ -4,6 +4,7 @@
     display: flex;
     flex-wrap: nowrap;
     margin-bottom: 1.5rem;
+    text-align: center;
   
     > div.edit-section {
       flex: 1 1 150px;
@@ -15,5 +16,8 @@
     max-width: 640px; 
     max-height: 360px;
     margin: auto;
+  }
+  .video:focus {
+    outline: none;
   }
 }
