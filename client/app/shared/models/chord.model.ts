@@ -1,28 +1,24 @@
 export class Chord {
   // tslint:disable-next-line: variable-name
   public constructor(
+    public _id: number,
     public songID: number,
-    public chord: 
-      {
-        timestamp: number,
-        root?: string,
-        bass?: string,
-        quality?: string,
-        numeral?: string,
-        alias?: string,
-        diatonic?: boolean,
-      }
+    public timestamp: string,
+    public root: string,
+    public quality: string,
+    public bass?: string,
+    public numeral?: string,
+    public alias?: string,
+    public diatonic?: boolean
   ) {
+    this._id = _id;
     this.songID = songID;
-    this.chord =
-      {
-        timestamp: chord.timestamp || 0.000,
-        root: chord.root || "",
-        bass: chord.bass || "",
-        quality: chord.quality || "",
-        numeral: chord.numeral || "",
-        alias: chord.alias || "",
-        diatonic: chord.diatonic || false
-      };
+    this.timestamp = timestamp;
+    this.root = root;
+    this.quality = quality;
+    this.bass = bass || "";
+    this.numeral = numeral || "";
+    this.alias = alias || "";
+    this.diatonic = diatonic || true;
   }
 }
