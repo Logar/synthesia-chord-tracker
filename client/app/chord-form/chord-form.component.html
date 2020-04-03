@@ -4,10 +4,10 @@
     <form
           #chordForm="ngForm"
           id="add-chord-form"
-          (ngSubmit)="onSubmit()">
-      <div class="form-group">
+          (submit)="onSubmitAddChord()">
+      <div>
         <label for="timestamp">
-          Video Timestamp: {{videoTime}}
+          Video Timestamp: {{ videoTime }}
         </label>
       </div>
       <div class="form-group grid-container">
@@ -17,7 +17,7 @@
                 class="form-control"
                 id="root-input"
                 required
-                [(ngModel)]="chordModel.chord.root"
+                [(ngModel)]="chordModel.root"
                 name="root">
       </div>
       <div class="form-group grid-container">
@@ -26,8 +26,7 @@
                 type="text"
                 class="form-control"
                 id="bass-input"
-                required
-                [(ngModel)]="chordModel.chord.bass"
+                [(ngModel)]="chordModel.bass"
                 name="bass">
       </div>
       <div class="form-group grid-container">
@@ -37,7 +36,7 @@
                 class="form-control"
                 id="quality-input"
                 required
-                [(ngModel)]="chordModel.chord.quality"
+                [(ngModel)]="chordModel.quality"
                 name="quality">
       </div>
       <div class="form-group grid-container">
@@ -46,8 +45,7 @@
                 type="text"
                 class="form-control"
                 id="numeral-input"
-                required
-                [(ngModel)]="chordModel.chord.numeral"
+                [(ngModel)]="chordModel.numeral"
                 name="numeral">
       </div>
       <div class="form-group grid-container">
@@ -56,15 +54,13 @@
                 type="text"
                 class="form-control"
                 id="alias-input"
-                required
-                [(ngModel)]="chordModel.chord.alias"
+                [(ngModel)]="chordModel.alias"
                 name="alias">
       </div>
       <div id="submit-container">
         <button
                 type="submit" 
-                class="btn btn-success"
-                [disabled]="!chordForm.form.valid">
+                class="btn btn-success">
           Submit
         </button>
       </div>
