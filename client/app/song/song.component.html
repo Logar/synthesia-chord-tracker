@@ -40,18 +40,24 @@
       </div>
     </div>
     <div *ngIf="toggleEditMode">
-      <chord-form [videoTime]="videoTime" [songID]="songID"></chord-form>
+      <chord-form [videoTime]="videoTime"></chord-form>
     </div>
     <video
+            *ngIf="appState.activeSong.videoSrc"
             #video 
-            id="song1" 
+            id="videoContainer"
             (timeupdate)="onVideoTimeUpdate()"
             class="video"
             [controls]="true"
-            [muted]="true">
+            [muted]="true"
+            [src]="appState.activeSong.videoSrc">
+      <p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+        <a href="https://videojs.com/html5-video-support/" target="_blank">
+          supports HTML5 video
+        </a>
+      </p>
       <!-- original resolution = 1280 x 720 -->
-      <source src="assets/videos/song1.mp4" type="video/mp4">
-      <!--<track src="assets/vtt/song1.vtt" label="English" kind="subtitles" srclang="en" default>-->
-      Your browser does not support the video tag.
     </video>
 </div>
