@@ -1,6 +1,15 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef, 
+  ViewChild
+} from '@angular/core';
+import { Observer } from 'rxjs';
 
 import { SongService } from '../services/song.service';
+import { ChordService } from '../services/chord.service';
+import { AppState } from '../app.state';
+
 import { Song } from '../shared/models/song.model';
 import { Chord } from '../shared/models/chord.model';
 
@@ -8,44 +17,64 @@ import { Chord } from '../shared/models/chord.model';
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.scss'],
-  providers: [SongService]
+  providers: [SongService, ChordService]
 })
 export class SongComponent implements OnInit {
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
+
   chordModel: Chord;
-  songModel: Song;
-  songID: number;
-  videoTime: number;
+  videoTime: string;
   // Toggle for editing chord data
   toggleEditMode: boolean;
 
   public constructor(
-    private _songService: SongService
+    protected _songService: SongService,
+    protected _chordService: ChordService,
+    public appState: AppState
   ) {
-    this.songID = 1;
-    this.songModel = new Song(this.songID, "Yasashia", "Bb Lydian", Array());
-    this.chordModel = new Chord(1, Object());
-    this.videoTime = 0.000;
+    this.videoTime = "0.000";
     this.toggleEditMode = false;
-    this.songData();
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.videoTime = "0.000";
+    if (this.appState.songModels.length === 0) {
+      // Invoke retrieval, transform, and setter of all songs stream
+      this._songService.getAllSongs().subscribe(
+        this._observable(this.setSongModels)
+      );
+    }
+  }
 
-  private songData(): void {
-    // @fix change to a variable path 
-    let path = '../../assets/json/songs/1_Yasashia.json';
+  public onChangeSong(event: any) {
+    // event.target.value is the song id
+    this.appState.activeSong = 
+      this.findSongById(this.appState.songModels, event.target.value);
+    event.stopPropagation();
+  }
 
-    this._songService.getJSON(path).subscribe(
-      response => { 
-        console.log('HTTP response', response);
-        Object.assign(this.chordModel, response);
-      },
-      error => console.log('HTTP Error', error),
-      () => console.log('HTTP request completed.')
-    );
+  public setSongModels(httpData: Array<Object>): void {
+    this.appState.songModels = this.mapSongData(httpData);
+    // @todo, this should be invoked outside of this function
+    this.setActiveSong();
+  }
+
+  public setActiveSong() {
+    this.appState.activeSong =
+      this.findSongById(this.appState.songModels, this.appState.songModels[0]._id);
+    console.log("SongComponent: Set Active Song: ", this.appState.activeSong);
+  }
+
+  public mapSongData(httpData: Array<Object>) {
+    return httpData.map((element: Object) => {
+      return Object.assign(new Song(0, "", "", ""), element);
+    });
+  }
+
+  public findSongById(songs: Song[], songID: number): Song {
+    return songs.find(element => element._id === songID);
   }
 
   public onChangeSpeed(event: any): void {
@@ -54,9 +83,19 @@ export class SongComponent implements OnInit {
 
   public onVideoTimeUpdate(): void {
     let currentTime = this.video.nativeElement.currentTime;
-    this.videoTime = Math.max((Math.round(currentTime * 10) / 1000));
+    this.videoTime = (
+      Math.max(
+        (Math.round(currentTime * 10) / 1000)
+      )
+    ).toString();
   }
 
-  public onToggleEditMode(): void {
+  public _observable(callback: Function): Observer<Object> {
+    // Create observer object
+    return {
+      next: response => callback.call(this, response),
+      error: error => console.error('HTTP Error: ', error),
+      complete: () => console.log('Observer got a complete notification')
+    };
   }
 }

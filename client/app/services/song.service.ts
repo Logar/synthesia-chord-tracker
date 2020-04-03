@@ -1,35 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError, of } from 'rxjs';
-import { map, retry, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { Chord } from '../shared/models/chord.model';
+import { Song } from '../shared/models/song.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SongService {
 
   constructor(private http: HttpClient) { }
 
-  public getJSON(path: string): Observable<Chord[]> {
-    const $http = this.http.get<Chord[]>(path);
+  getAllSongs(): Observable<Song[]> {
+    return this.http.get<Song[]>('/api/songs');
+  }
 
-    return $http
-      .pipe(
-        map((res: any) => {
-          if (!res) {
-            return Observable.throw("Value expected!");
-          }
-          return res;
-        }),
-        catchError(err => {
-          console.log("Caught mapping error and rethrowing", err);
-          return throwError(err);
-        }),
-        catchError(err => {
-          console.log("Caught rethrown error, providing fallback value");
-          return of([]);
-        }),
-        retry(3) // Retry up to 3 times before failing
-      );
+  countSongs(): Observable<number> {
+    return this.http.get<number>('/api/songs/count');
+  }
+
+  addSong(song: Song): Observable<Song> {
+    return this.http.post<Song>('/api/song', song);
+  }
+
+  getSongById(song: Song): Observable<Song> {
+    return this.http.get<Song>(`/api/song/${song._id}`);
+  }
+
+  editSong(song: Song): Observable<any> {
+    return this.http.put(`/api/song/${song._id}`, song, { responseType: 'text' });
+  }
+
+  deleteSong(song: Song): Observable<any> {
+    return this.http.delete(`/api/song/${song._id}`, { responseType: 'text' });
   }
 }
