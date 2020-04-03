@@ -1,38 +1,58 @@
-import { Component, ViewChild, Input } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators, NgForm} from '@angular/forms';
+import { 
+  Component, 
+  Input
+} from '@angular/core';
+
+import { Chord } from '../shared/models/chord.model';
+import { Song } from '../shared/models/song.model';
+
+import { SongComponent } from '../song/song.component';
 
 import { SongService } from '../services/song.service';
-import { Chord } from '../shared/models/chord.model';
+import { ChordService } from '../services/chord.service';
+import { AppState } from '../app.state';
 
 @Component({
   selector: 'chord-form',
   templateUrl: './chord-form.component.html',
-  styleUrls: ['./chord-form.component.scss'],
-  providers: [SongService]
+  styleUrls: ['./chord-form.component.scss']
 })
-export class ChordFormComponent {
+export class ChordFormComponent extends SongComponent {
 
-  // decorate the property with @Input()
-  @Input() videoTime: number;
-  @Input() songID: number;
-  
-  // Create a new chord model
+  // Declare model types
   chordModel: Chord;
+  activeSong: Song;
+
+  @Input() videoTime: string;
   submitted: boolean;
 
   public constructor(
-    private _songService: SongService
+    protected _songService: SongService,
+    protected _chordService: ChordService,
+    public appState: AppState
   ) {
-    this.chordModel = new Chord(this.songID, Object());
+    // Invoke base class constructor and inherit services
+    super(_songService, _chordService, appState);
+
+    this.chordModel = new Chord(
+      null,
+      this.appState.activeSong._id, 
+      this.videoTime, 
+      null, 
+      null);
     this.submitted = false;
   }
 
-  public onSubmit(): void {
+  public onSubmitAddChord(): void {
     this.submitted = true;
-    console.log("On Submit", this.chordModel);
+    this.chordModel = Object.assign(this.chordModel, {timestamp: this.videoTime});
+    console.log("Before Submit", this.chordModel);
+    this._chordService.addChord(this.chordModel).subscribe(
+      this._observable(this.addChordCallback)
+    );
   }
 
-  public onToggleEditMode(): void {
-
+  public addChordCallback() {
+    console.log("After Submit", this.chordModel);
   }
 }
