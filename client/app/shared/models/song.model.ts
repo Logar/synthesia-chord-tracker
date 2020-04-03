@@ -1,14 +1,16 @@
 export class Song {
   // tslint:disable-next-line: variable-name
   public constructor(
-    public id: number,
+    public _id: number,
     public title: string,
     public key: string,
-    public chords: Array<object>
+    public videoSrc: string,
+    public chords?: Array<Object>
   ) {
-    this.id = id;
+    this._id = _id;
     this.title = title;
     this.key = key;
+    this.videoSrc = videoSrc;
     this.chords = new Array();
   }
 }
