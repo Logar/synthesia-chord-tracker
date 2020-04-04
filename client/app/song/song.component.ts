@@ -79,10 +79,10 @@ export class SongComponent implements OnInit {
     this.video.nativeElement.playbackRate = event.target.value;
   }
 
-  public onVideoTimeUpdate(): void {
+  public onChangeVideoTime(event: any): void {
     this.videoTime = (
       Math.max(
-        (Math.round(this.video.nativeElement.currentTime * 10) / 1000)
+        (Math.round(event.srcElement.currentTime * 10) / 1000)
       )
     ).toString();
   }

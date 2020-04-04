@@ -45,7 +45,7 @@
             *ngIf="appState.activeSong.videoSrc"
             #video 
             id="videoContainer"
-            (timeupdate)="onVideoTimeUpdate()"
+            (timeupdate)="onChangeVideoTime($event)"
             class="video"
             [controls]="true"
             [muted]="true"
