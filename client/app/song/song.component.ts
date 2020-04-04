@@ -39,7 +39,6 @@ export class SongComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.videoTime = "0.000";
     if (this.appState.songModels.length === 0) {
       // Invoke retrieval, transform, and setter of all songs stream
       this._songService.getAllSongs().subscribe(
@@ -81,10 +80,9 @@ export class SongComponent implements OnInit {
   }
 
   public onVideoTimeUpdate(): void {
-    let currentTime = this.video.nativeElement.currentTime;
     this.videoTime = (
       Math.max(
-        (Math.round(currentTime * 10) / 1000)
+        (Math.round(this.video.nativeElement.currentTime * 10) / 1000)
       )
     ).toString();
   }
