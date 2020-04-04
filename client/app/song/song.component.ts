@@ -75,7 +75,7 @@ export class SongComponent implements OnInit {
     return songs.find(element => element._id === songID);
   }
 
-  public onChangeSpeed(event: any): void {
+  public onChangePlayback(event: any): void {
     this.video.nativeElement.playbackRate = event.target.value;
   }
 
