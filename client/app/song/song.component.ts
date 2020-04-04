@@ -43,7 +43,7 @@ export class SongComponent implements OnInit {
     if (this.appState.songModels.length === 0) {
       // Invoke retrieval, transform, and setter of all songs stream
       this._songService.getAllSongs().subscribe(
-        this._observable(this.setSongModels)
+        this._observable(this.setSongModels, this.setActiveSongModel)
       );
     }
   }
@@ -55,19 +55,18 @@ export class SongComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public setSongModels(httpData: Array<Object>): void {
-    this.appState.songModels = this.mapSongData(httpData);
-    // @todo, this should be invoked outside of this function
-    this.setActiveSong();
+  public setSongModels(httpData: Array<Object>) {
+    this.appState.songModels = this.assignSongModels(httpData);
   }
 
-  public setActiveSong() {
-    this.appState.activeSong =
-      this.findSongById(this.appState.songModels, this.appState.songModels[0]._id);
-    console.log("SongComponent: Set Active Song: ", this.appState.activeSong);
+  public setActiveSongModel() {
+    this.appState.activeSong = this.findSongById(
+      this.appState.songModels,
+      this.appState.songModels[0]._id
+    );
   }
 
-  public mapSongData(httpData: Array<Object>) {
+  public assignSongModels(httpData: Array<Object>) {
     return httpData.map((element: Object) => {
       return Object.assign(new Song(0, "", "", ""), element);
     });
@@ -90,10 +89,12 @@ export class SongComponent implements OnInit {
     ).toString();
   }
 
-  public _observable(callback: Function): Observer<Object> {
+  public _observable(...callbacks: Array<Function>): Observer<Object> {
     // Create observer object
     return {
-      next: response => callback.call(this, response),
+      next: response => {
+        callbacks.forEach(f => f.call(this, response))
+      },
       error: error => console.error('HTTP Error: ', error),
       complete: () => console.log('Observer got a complete notification')
     };
