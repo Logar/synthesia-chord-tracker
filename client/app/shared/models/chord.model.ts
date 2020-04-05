@@ -1,8 +1,8 @@
 export class Chord {
   // tslint:disable-next-line: variable-name
   public constructor(
-    public _id: number,
-    public songID: number,
+    public _id: string,
+    public songID: string,
     public timestamp: number,
     public root: string,
     public quality: string,

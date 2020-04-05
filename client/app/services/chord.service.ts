@@ -9,8 +9,8 @@ export class ChordService {
 
   constructor(private http: HttpClient) { }
 
-  getChords(): Observable<Chord[]> {
-    return this.http.get<Chord[]>('/api/chords');
+  getChordsBySongId(songID: String): Observable<Chord[]> {
+    return this.http.get<Chord[]>(`/api/chords/${songID}`);
   }
 
   countChords(): Observable<number> {

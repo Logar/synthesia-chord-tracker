@@ -41,7 +41,11 @@ export class SongComponent implements OnInit {
     if (this.appState.songModels.length === 0) {
       // Invoke retrieval, transform, and setter of all songs stream
       this._songService.getAllSongs().subscribe(
-        this._observable(this.setSongModels, this.setActiveSongModel)
+        this._observable(
+          this.setSongModels,
+          this.setActiveSongModel,
+          this.getChordsBySongId
+        )
       );
     }
   }
@@ -50,11 +54,40 @@ export class SongComponent implements OnInit {
     // event.target.value is the song id
     this.appState.activeSong = 
       this.findSongById(this.appState.songModels, event.target.value);
+    // Invoke function for getting chords for selected song
+    this.getChordsBySongId();
+    // Stop event from bubbling
     event.stopPropagation();
+  }
+
+  public getChordsBySongId() {
+    this._chordService.getChordsBySongId(this.appState.activeSong._id).subscribe(
+      this._observable(this.setChordModels)
+    );
+  }
+
+  public setChordModels(httpData: Array<Object>) {
+    this.appState.chordModels = this.assignChordModels(httpData);
+  }
+
+  public assignChordModels(httpData: Array<Object>) {
+    return httpData.map((element: Object) => {
+      return Object.assign(new Chord("", "", 0, "", ""), element);
+    });
   }
 
   public setSongModels(httpData: Array<Object>) {
     this.appState.songModels = this.assignSongModels(httpData);
+  }
+
+  public assignSongModels(httpData: Array<Object>) {
+    return httpData.map((element: Object) => {
+      return Object.assign(new Song("", "", "", ""), element);
+    });
+  }
+
+  public findSongById(songs: Song[], songID: string): Song {
+    return songs.find(element => element._id === songID);
   }
 
   public setActiveSongModel() {
@@ -64,22 +97,16 @@ export class SongComponent implements OnInit {
     );
   }
 
-  public assignSongModels(httpData: Array<Object>) {
-    return httpData.map((element: Object) => {
-      return Object.assign(new Song(0, "", "", ""), element);
-    });
-  }
-
-  public findSongById(songs: Song[], songID: number): Song {
-    return songs.find(element => element._id === songID);
-  }
-
   public onChangePlayback(event: any): void {
     this.video.nativeElement.playbackRate = event.target.value;
+    // Stop event from bubbling
+    event.stopPropagation();
   }
 
   public onChangeVideoTime(event: any): void {
     this.videoTime = event.srcElement.currentTime;
+    // Stop event from bubbling
+    event.stopPropagation();
   }
 
   public _observable(...callbacks: Array<Function>): Observer<Object> {
