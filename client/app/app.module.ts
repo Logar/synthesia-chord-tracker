@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 // Services
 import { AppState } from './app.state';
-import { CatService } from './services/cat.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { SongService } from './services/song.service';
@@ -19,7 +18,6 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 import { AppComponent } from './app.component';
 import { SongComponent } from './song/song.component';
 import { ChordFormComponent } from './chord-form/chord-form.component';
-import { CatsComponent } from './cats/cats.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -38,7 +36,6 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    CatsComponent,
     SongComponent,
     AboutComponent,
     RegisterComponent,
@@ -65,7 +62,6 @@ export function tokenGetter() {
     AuthService,
     AuthGuardLogin,
     AuthGuardAdmin,
-    CatService,
     UserService,
     SongService,
     ChordService,
