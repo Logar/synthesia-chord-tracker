@@ -28,6 +28,9 @@ import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+// Pipes
+import {VideoTimePipe} from './shared/pipes/video-time.pipe';
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -44,7 +47,8 @@ export function tokenGetter() {
     AccountComponent,
     AdminComponent,
     NotFoundComponent,
-    ChordFormComponent
+    ChordFormComponent,
+    VideoTimePipe
   ],
   imports: [
     AppRoutingModule,
