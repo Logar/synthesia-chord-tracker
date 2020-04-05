@@ -25,7 +25,7 @@ export class SongComponent implements OnInit {
   @ViewChild('video') video: ElementRef;
 
   chordModel: Chord;
-  videoTime: string;
+  videoTime: number;
   // Toggle for editing chord data
   toggleEditMode: boolean;
 
@@ -34,7 +34,6 @@ export class SongComponent implements OnInit {
     protected _chordService: ChordService,
     public appState: AppState
   ) {
-    this.videoTime = "0.000";
     this.toggleEditMode = false;
   }
 
@@ -80,11 +79,7 @@ export class SongComponent implements OnInit {
   }
 
   public onChangeVideoTime(event: any): void {
-    this.videoTime = (
-      Math.max(
-        (Math.round(event.srcElement.currentTime * 10) / 1000)
-      )
-    ).toString();
+    this.videoTime = event.srcElement.currentTime;
   }
 
   public _observable(...callbacks: Array<Function>): Observer<Object> {

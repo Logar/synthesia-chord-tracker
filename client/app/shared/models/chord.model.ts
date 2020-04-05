@@ -3,7 +3,7 @@ export class Chord {
   public constructor(
     public _id: number,
     public songID: number,
-    public timestamp: string,
+    public timestamp: number,
     public root: string,
     public quality: string,
     public bass?: string,

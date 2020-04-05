@@ -23,7 +23,7 @@ export class ChordFormComponent extends SongComponent {
   chordModel: Chord;
   activeSong: Song;
 
-  @Input() videoTime: string;
+  @Input() videoTime: number;
   submitted: boolean;
 
   public constructor(

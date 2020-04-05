@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const chordSchema = new mongoose.Schema({
   songID: String,
-  timestamp: String,
+  timestamp: Number,
   root: String,
   bass: String,
   quality: String,
