@@ -3,10 +3,10 @@ import {
   Input
 } from '@angular/core';
 
+import { AbstractObserver } from '../shared/abstract/observer.abstract';
+
 import { Chord } from '../shared/models/chord.model';
 import { Song } from '../shared/models/song.model';
-
-import { SongComponent } from '../song/song.component';
 
 import { SongService } from '../services/song.service';
 import { ChordService } from '../services/chord.service';
@@ -15,9 +15,10 @@ import { AppState } from '../app.state';
 @Component({
   selector: 'chord-form',
   templateUrl: './chord-form.component.html',
-  styleUrls: ['./chord-form.component.scss']
+  styleUrls: ['./chord-form.component.scss'],
+  providers: [SongService, ChordService]
 })
-export class ChordFormComponent extends SongComponent {
+export class ChordFormComponent extends AbstractObserver {
 
   // Declare model types
   chordModel: Chord;
@@ -31,8 +32,8 @@ export class ChordFormComponent extends SongComponent {
     protected _chordService: ChordService,
     public appState: AppState
   ) {
-    // Invoke base class constructor and inherit services
-    super(_songService, _chordService, appState);
+    // Invoke parent class constructor
+    super();
 
     this.chordModel = new Chord(
       null,
@@ -48,7 +49,7 @@ export class ChordFormComponent extends SongComponent {
     this.chordModel = Object.assign(this.chordModel, {timestamp: this.videoTime});
     console.log("Before Submit", this.chordModel);
     this._chordService.addChord(this.chordModel).subscribe(
-      this._observable(this.addChordCallback)
+      super.observable(this.addChordCallback)
     );
   }
 

@@ -5,7 +5,7 @@
           class="btn btn-dark selectpicker show-tick" 
           (change)="onChangeSong($event)">
     <option
-        *ngFor="let item of appState.songModels"
+        *ngFor="let item of songModels"
         value="{{item._id}}">
         {{item.title}}
     </option>
@@ -42,14 +42,14 @@
       <chord-form [videoTime]="videoTime"></chord-form>
     </div>
     <video
-            *ngIf="appState.activeSong.videoSrc"
+            *ngIf="activeSong.videoSrc"
             #video 
             id="videoContainer"
             (timeupdate)="onChangeVideoTime($event)"
             class="video"
             [controls]="true"
             [muted]="true"
-            [src]="appState.activeSong.videoSrc">
+            [src]="activeSong.videoSrc">
       <p class="vjs-no-js">
         To view this video please enable JavaScript, and consider upgrading to a
         web browser that

@@ -4,14 +4,15 @@ import {
   ElementRef, 
   ViewChild
 } from '@angular/core';
-import { Observer } from 'rxjs';
+
+import { AbstractObserver } from '../shared/abstract/observer.abstract';
+
+import { Song } from '../shared/models/song.model';
+import { Chord } from '../shared/models/chord.model';
 
 import { SongService } from '../services/song.service';
 import { ChordService } from '../services/chord.service';
 import { AppState } from '../app.state';
-
-import { Song } from '../shared/models/song.model';
-import { Chord } from '../shared/models/chord.model';
 
 @Component({
   selector: 'app-song',
@@ -19,12 +20,15 @@ import { Chord } from '../shared/models/chord.model';
   styleUrls: ['./song.component.scss'],
   providers: [SongService, ChordService]
 })
-export class SongComponent implements OnInit {
+export class SongComponent extends AbstractObserver implements OnInit {
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
 
-  chordModel: Chord;
+  songModels: Song[];
+  chordModels: Chord[];
+  activeSong: Song;
+  
   videoTime: number;
   // Toggle for editing chord data
   toggleEditMode: boolean;
@@ -34,14 +38,20 @@ export class SongComponent implements OnInit {
     protected _chordService: ChordService,
     public appState: AppState
   ) {
+    // Invoke parent class constructor
+    super();
+
     this.toggleEditMode = false;
+    this.songModels = Array();
+    this.chordModels = Array();
+    this.activeSong = Object();
   }
 
   public ngOnInit(): void {
-    if (this.appState.songModels.length === 0) {
+    if (this.songModels.length === 0) {
       // Invoke retrieval, transform, and setter of all songs stream
       this._songService.getAllSongs().subscribe(
-        this._observable(
+        super.observable(
           this.setSongModels,
           this.setActiveSongModel,
           this.getChordsBySongId
@@ -52,8 +62,8 @@ export class SongComponent implements OnInit {
 
   public onChangeSong(event: any) {
     // event.target.value is the song id
-    this.appState.activeSong = 
-      this.findSongById(this.appState.songModels, event.target.value);
+    this.appState.activeSong = this.activeSong =
+      this.findSongById(this.songModels, event.target.value);
     // Invoke function for getting chords for selected song
     this.getChordsBySongId();
     // Stop event from bubbling
@@ -61,13 +71,13 @@ export class SongComponent implements OnInit {
   }
 
   public getChordsBySongId() {
-    this._chordService.getChordsBySongId(this.appState.activeSong._id).subscribe(
-      this._observable(this.setChordModels)
+    this._chordService.getChordsBySongId(this.activeSong._id).subscribe(
+      super.observable(this.setChordModels)
     );
   }
 
   public setChordModels(httpData: Array<Object>) {
-    this.appState.chordModels = this.assignChordModels(httpData);
+    this.appState.chordModels = this.chordModels = this.assignChordModels(httpData);
   }
 
   public assignChordModels(httpData: Array<Object>) {
@@ -77,7 +87,7 @@ export class SongComponent implements OnInit {
   }
 
   public setSongModels(httpData: Array<Object>) {
-    this.appState.songModels = this.assignSongModels(httpData);
+    this.appState.songModels = this.songModels = this.assignSongModels(httpData);
   }
 
   public assignSongModels(httpData: Array<Object>) {
@@ -91,9 +101,9 @@ export class SongComponent implements OnInit {
   }
 
   public setActiveSongModel() {
-    this.appState.activeSong = this.findSongById(
-      this.appState.songModels,
-      this.appState.songModels[0]._id
+    this.appState.activeSong = this.activeSong = this.findSongById(
+      this.songModels,
+      this.songModels[0]._id
     );
   }
 
@@ -107,16 +117,5 @@ export class SongComponent implements OnInit {
     this.videoTime = event.srcElement.currentTime;
     // Stop event from bubbling
     event.stopPropagation();
-  }
-
-  public _observable(...callbacks: Array<Function>): Observer<Object> {
-    // Create observer object
-    return {
-      next: response => {
-        callbacks.forEach(f => f.call(this, response))
-      },
-      error: error => console.error('HTTP Error: ', error),
-      complete: () => console.log('Observer got a complete notification')
-    };
   }
 }
