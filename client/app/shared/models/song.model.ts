@@ -4,13 +4,11 @@ export class Song {
     public _id: string,
     public title: string,
     public key: string,
-    public videoSrc: string,
-    public chords?: Array<Object>
+    public videoSrc: string | ArrayBuffer
   ) {
     this._id = _id;
     this.title = title;
     this.key = key;
     this.videoSrc = videoSrc;
-    this.chords = new Array();
   }
 }
