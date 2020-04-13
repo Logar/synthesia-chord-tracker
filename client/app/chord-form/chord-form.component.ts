@@ -1,6 +1,7 @@
 import { 
   Component, 
-  Input
+  Input,
+  ElementRef
 } from '@angular/core';
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
@@ -25,32 +26,52 @@ export class ChordFormComponent extends AbstractObserver {
   activeSong: Song;
 
   @Input() videoTime: number;
+
   submitted: boolean;
+  formType: string;
 
   public constructor(
     protected _songService: SongService,
     protected _chordService: ChordService,
-    public appState: AppState
+    public appState: AppState,
+    public element: ElementRef
   ) {
     // Invoke parent class constructor
     super();
 
-    this.chordModel = new Chord(
-      null,
-      this.appState.activeSong._id, 
-      this.videoTime, 
-      null, 
-      null);
+    // Initialize form type to determine if add or edit form
+    this.formType = element.nativeElement.getAttribute("data-formtype");
+    // Reset form submitted to false
     this.submitted = false;
+
+    if (this.formType === 'add') {
+      this.chordModel = new Chord(
+        null,
+        this.appState.activeSong._id, 
+        this.videoTime, 
+        null, 
+        null
+      );
+    }
+    else if (this.formType === 'edit') {
+      // @todo implement
+    }
   }
 
-  public onSubmitAddChord(): void {
+  public onSubmitChord(): void {
     this.submitted = true;
-    this.chordModel = Object.assign(this.chordModel, {timestamp: this.videoTime});
-    console.log("Before Submit", this.chordModel);
-    this._chordService.addChord(this.chordModel).subscribe(
-      super.observable(this.addChordCallback)
+    // Update chord model to current timestamp
+    this.chordModel = Object.assign(
+      this.chordModel,
+      {timestamp: this.videoTime}
     );
+    switch(this.formType) {
+      case 'add':
+        this._chordService.addChord(this.chordModel).subscribe(
+          super.observable(this.addChordCallback)
+        );
+        break;
+    }
   }
 
   public addChordCallback() {
