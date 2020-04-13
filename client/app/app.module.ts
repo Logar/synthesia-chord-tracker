@@ -17,6 +17,7 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
 import { AppComponent } from './app.component';
 import { SongComponent } from './song/song.component';
+import { SongFormComponent } from './song-form/song-form.component';
 import { ChordFormComponent } from './chord-form/chord-form.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
@@ -28,6 +29,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 // Pipes
 import {VideoTimePipe} from './shared/pipes/video-time.pipe';
+import {ChordPipe} from './shared/pipes/chord.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -37,6 +39,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     SongComponent,
+    SongFormComponent,
     AboutComponent,
     RegisterComponent,
     LoginComponent,
@@ -45,7 +48,8 @@ export function tokenGetter() {
     AdminComponent,
     NotFoundComponent,
     ChordFormComponent,
-    VideoTimePipe
+    VideoTimePipe,
+    ChordPipe
   ],
   imports: [
     AppRoutingModule,
