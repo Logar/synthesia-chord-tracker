@@ -26,6 +26,7 @@ implements OnInit {
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
+  @ViewChild('chordSlider') chordSlider: ElementRef;
 
   songModels: Song[];
   chordModels: Chord[];
@@ -141,8 +142,33 @@ implements OnInit {
   }
 
   public onChangeVideoTime(event: any): void {
-    this.videoTime = event.srcElement.currentTime;
     // Stop event from bubbling
     event.stopPropagation();
+    
+    const videoTime = this.videoTime = event.srcElement.currentTime;
+
+    const domElements: any = Array.from(this.chordSlider.nativeElement.children);
+    domElements.sort((a: any, b: any) => {
+      const prev = a.firstChild.getAttribute('data-timestamp');
+      const current = b.firstChild.getAttribute('data-timestamp');
+      return Math.abs(videoTime - prev) - Math.abs(videoTime - current)
+    });
+
+    domElements.forEach((ele, index) => {
+      if (index === 0) {
+        // Scroll to current chord and center horizontally
+        ele.scrollIntoView({
+          behavior: 'auto',
+          block: 'nearest',
+          inline: 'center'
+        });
+        // Highlight chord that matches video time
+        ele.style.backgroundColor = 'var(--dark-purple)';
+      }
+      else {
+        // Change color back to default
+        ele.style.backgroundColor = 'var(--medium-purple)';
+      }
+    });
   }
 }
