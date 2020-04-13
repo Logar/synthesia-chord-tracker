@@ -13,7 +13,7 @@ export abstract class AbstractObserver {
         callbacks.forEach(f => f.call(this, response))
       },
       error: error => console.error('HTTP Error: ', error),
-      complete: () => console.log('Observer got a complete notification')
+      complete: () => console.log()
     };
   }
   
