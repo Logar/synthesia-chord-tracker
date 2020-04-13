@@ -20,7 +20,9 @@ import { AppState } from '../app.state';
   styleUrls: ['./song.component.scss'],
   providers: [SongService, ChordService]
 })
-export class SongComponent extends AbstractObserver implements OnInit {
+export class SongComponent 
+extends AbstractObserver 
+implements OnInit {
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
@@ -58,7 +60,7 @@ export class SongComponent extends AbstractObserver implements OnInit {
     this.activeSong = Object();
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (this.songModels.length === 0) {
       // Invoke retrieval, transform, and setter of all songs stream
       this._songService.getAllSongs().subscribe(
