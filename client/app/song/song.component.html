@@ -39,7 +39,64 @@
       </div>
     </div>
     <div *ngIf="toggleEditMode">
-      <chord-form [videoTime]="videoTime"></chord-form>
+      <div id="button-container" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label
+                class="btn btn-secondary"
+                [ngStyle]="{'background-color': 'var(--light-blue)'}">
+          <input
+                  type="radio" 
+                  name="toggleForms"
+                  id="toggleAddChordForm"
+                  (click)="toggleVisible($event)"
+                  autocomplete="off">
+          Add Chord
+        </label>
+        <label
+                class="btn btn-secondary"
+                [ngStyle]="{'background-color': 'var(--light-purple)'}">
+          <input
+                  type="radio" 
+                  name="toggleForms"
+                  id="toggleAddSongForm"
+                  (click)="toggleVisible($event)"
+                  autocomplete="off">
+          Add Song
+        </label>
+        <label
+                class="btn btn-secondary"
+                [ngStyle]="{'background-color': 'var(--light-pink)'}">
+          <input
+                  type="radio" 
+                  name="toggleForms"
+                  id="toggleEditSongForm"
+                  (click)="toggleVisible($event)"
+                  autocomplete="off">
+          Edit Song
+        </label>
+      </div>
+      <div *ngIf="toggleAddChordForm">
+        <chord-form [videoTime]="videoTime" data-formtype="add"></chord-form>
+      </div>
+      <div *ngIf="toggleEditChordForm">
+        <chord-form [videoTime]="videoTime" data-formtype="edit"></chord-form>
+      </div>
+      <div *ngIf="toggleAddSongForm">
+        <song-form data-formtype="add"></song-form>
+      </div>
+      <div *ngIf="toggleEditSongForm">
+        <song-form data-formtype="edit"></song-form>
+      </div>
+    </div>
+    <div #chordSlider class="chord-slider">
+        <div
+            *ngFor="let chord of chordModels"
+            class="cell">
+            <div 
+                  id="{{chord._id}}"
+                  [attr.data-timestamp]="chord.timestamp" 
+                  [innerHTML]="chord | formatChord">
+            </div>
+        </div>
     </div>
     <video
             *ngIf="activeSong.videoSrc"

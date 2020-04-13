@@ -28,6 +28,11 @@ export class SongComponent extends AbstractObserver implements OnInit {
   songModels: Song[];
   chordModels: Chord[];
   activeSong: Song;
+
+  toggleAddSongForm: boolean;
+  toggleEditSongForm: boolean;
+  toggleAddChordForm: boolean;
+  toggleEditChordForm: boolean;
   
   videoTime: number;
   // Toggle for editing chord data
@@ -42,6 +47,12 @@ export class SongComponent extends AbstractObserver implements OnInit {
     super();
 
     this.toggleEditMode = false;
+    this.toggleEditSongForm = false;
+    this.toggleEditChordForm = false;
+    this.toggleAddSongForm = false;
+    // Initialize to true so at least one form is shown by default
+    this.toggleAddChordForm = true;
+    
     this.songModels = Array();
     this.chordModels = Array();
     this.activeSong = Object();
@@ -105,6 +116,20 @@ export class SongComponent extends AbstractObserver implements OnInit {
       this.songModels,
       this.songModels[0]._id
     );
+  }
+
+  public toggleVisible(event: any): void {
+    const self = this;
+    const source = event.target;
+    const siblings = document.querySelectorAll(
+      `[name='${event.target.name}']`
+    );
+    siblings.forEach(ele => {
+      if (ele.id == source.id) 
+        self[source.id] = true;
+      else 
+        self[ele.id] = false;
+    });
   }
 
   public onChangePlayback(event: any): void {
