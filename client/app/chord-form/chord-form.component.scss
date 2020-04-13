@@ -2,40 +2,4 @@
   #type-select {
     background-color: var(--indigo);
   }
-  #add-chord-form {
-    padding: 1em;
-    background: #def7f8;
-    border: 1px solid #c1c1c1;
-    margin: 0 auto 2rem auto;
-    max-width: 600px;
-  }
-  #submit-container {
-    text-align: right;
-  }
-
-  // grid layout
-  .grid-container {
-    display: grid;
-    grid-template-columns: 80px 3fr;
-    grid-gap: 1rem;
-
-    label {
-      grid-column: 1 / 2;
-      padding: 0.5em 0.5em 0.5em 0;
-    }
-
-    input {
-      grid-column: 2 / 4;
-      border: 1px solid #9c9c9c;
-      padding: 0.7em;
-      margin-bottom: 0.5rem;
-    }
-    .ng-valid[required], .ng-valid.required  {
-      border-left: 5px solid #42A948; /* green */
-    }
-    
-    .ng-invalid:not(form)  {
-      border-left: 5px solid #a94442; /* red */
-    }
-  }
 }
