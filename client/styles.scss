@@ -6,6 +6,11 @@
   --text-secondary: #ececec;
   --bg-primary: #23232e;
   --bg-secondary: #141418;
+  --light-blue: rgb(222, 247, 248);
+  --light-purple: rgb(189, 199, 255);
+  --light-pink: rgb(222, 193, 251);
+  --medium-purple: #2a143a9a;
+  --dark-purple: rgb(41, 13, 90);
   --transition-speed: 600ms;
 }
 
@@ -18,6 +23,22 @@ body {
   margin-top: 15px;
 }
 
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+.top-container {
+  min-width: 450px;
+}
+
 .input-group {
   margin-bottom: 15px;
 }
@@ -28,6 +49,51 @@ body {
 
 .flex.row {
   flex-direction: row;
+}
+
+nav.navbar.navbar-dark {
+  background-color: #133e6b !important;
+}
+
+.margin-right-20 {
+  margin-right: 20px;
+}
+
+.form {
+  padding: 1em;
+  background: #def7f8;
+  border: 1px solid #c1c1c1;
+  margin: 0 auto 2rem auto;
+  max-width: 600px;
+}
+.submit-container {
+  text-align: right;
+}
+
+// grid layout
+.grid-container {
+  display: grid;
+  grid-template-columns: 80px 3fr;
+  grid-gap: 1rem;
+
+  label {
+    grid-column: 1 / 2;
+    padding: 0.5em 0.5em 0.5em 0;
+  }
+
+  input {
+    grid-column: 2 / 4;
+    border: 1px solid #9c9c9c;
+    padding: 0.7em;
+    margin-bottom: 0.5rem;
+  }
+  .ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }
+  
+  .ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+  }
 }
 
 /* The switch - the box around the slider */
