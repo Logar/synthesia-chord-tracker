@@ -1,9 +1,9 @@
 {
-  "name": "portfolio-full-stack",
+  "name": "synthesia-chord-tracker",
   "version": "1.0.0",
   "license": "MIT",
   "author": "Ross Arena",
-  "description": "Angular Full Stack project built using Angular 2+, Express, Mongoose and Node.",
+  "description": "Synthesia chord tracker is a web application for tracking chords to all your favorite songs.",
   "engines": {
     "node": "10.16.0",
     "npm": "6.9.0"
