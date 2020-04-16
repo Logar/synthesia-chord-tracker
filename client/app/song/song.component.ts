@@ -125,8 +125,8 @@ implements OnInit {
 
     const domElements: any = Array.from(this.chordSlider.nativeElement.children);
     domElements.sort((a: any, b: any) => {
-      const prev = a.firstChild.getAttribute('data-timestamp');
-      const current = b.firstChild.getAttribute('data-timestamp');
+      const prev = a.getAttribute('data-timestamp');
+      const current = b.getAttribute('data-timestamp');
       return Math.abs(videoTime - prev) - Math.abs(videoTime - current)
     });
 
@@ -146,5 +146,17 @@ implements OnInit {
         ele.style.backgroundColor = 'var(--medium-purple)';
       }
     });
+  }
+
+  public onDeleteChord(event: any): void {
+    // Stop event from bubbling
+    event.stopPropagation();
+    const chord = event.currentTarget.parentElement;
+
+    const userAction = confirm('This will permanently delete the chord. Are you sure?');
+    if (userAction) {
+      this._chordService.deleteChord(chord.getAttribute('id')).subscribe();
+      chord.remove();
+    }
   }
 }

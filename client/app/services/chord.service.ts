@@ -29,7 +29,7 @@ export class ChordService {
     return this.http.put(`/api/chord/${chord._id}`, chord, { responseType: 'text' });
   }
 
-  deleteChord(chord: Chord): Observable<any> {
-    return this.http.delete(`/api/chord/${chord._id}`, { responseType: 'text' });
+  deleteChord(id: number): Observable<any> {
+    return this.http.delete(`/api/chord/${id}`, { responseType: 'text' });
   }
 }
