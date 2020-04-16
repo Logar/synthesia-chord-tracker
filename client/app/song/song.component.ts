@@ -130,7 +130,7 @@ implements OnInit {
       return Math.abs(videoTime - prev) - Math.abs(videoTime - current)
     });
 
-    domElements.forEach((ele, index) => {
+    domElements.forEach((ele: HTMLElement, index: number) => {
       if (index === 0) {
         // Scroll to current chord and center horizontally
         ele.scrollIntoView({
