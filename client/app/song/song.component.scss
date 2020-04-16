@@ -43,23 +43,24 @@
   }
   .chord-slider {
     display: flex;
-    height: 105px;
-    background-color: #d8d4cf;
-    padding: 10px;
-    margin-bottom: 20px;
     flex-direction: column;
     flex-wrap: wrap;
+    align-content: flex-start;
+    height: 105px;
+    margin-bottom: 20px;
+    padding: 10px;
     overflow-x: scroll;
     overflow-y: hidden;
+    background-color: #d8d4cf;
     .cell {
       position: relative;
       width: 100px;
-      background-color: var(--medium-purple);
-      color: #ffffff;
-      padding: 15px;
       height: 75px;
       margin-right: 10px;
+      padding: 15px;
       text-align: center;
+      background-color: var(--medium-purple);
+      color: #ffffff;
       .active { 
         background-color: #231250;
         font-weight: bold;
