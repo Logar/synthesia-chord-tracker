@@ -46,8 +46,7 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleAddChordForm"
-                  (click)="toggleVisible($event)"
+                  (click)="toggleForms='add-chord'"
                   autocomplete="off">
           Add Chord
         </label>
@@ -57,8 +56,7 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleAddSongForm"
-                  (click)="toggleVisible($event)"
+                  (click)="toggleForms='add-song'"
                   autocomplete="off">
           Add Song
         </label>
@@ -68,23 +66,30 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleEditSongForm"
-                  (click)="toggleVisible($event)"
+                  (click)="toggleForms='edit-song'"
                   autocomplete="off">
           Edit Song
         </label>
       </div>
-      <div *ngIf="toggleAddChordForm">
-        <chord-form [videoTime]="videoTime" data-formtype="add"></chord-form>
-      </div>
-      <div *ngIf="toggleEditChordForm">
-        <chord-form [videoTime]="videoTime" data-formtype="edit"></chord-form>
-      </div>
-      <div *ngIf="toggleAddSongForm">
-        <song-form data-formtype="add"></song-form>
-      </div>
-      <div *ngIf="toggleEditSongForm">
-        <song-form data-formtype="edit"></song-form>
+      <div [ngSwitch]="toggleForms">
+        <chord-form
+                    *ngSwitchDefault="'add-chord'"
+                    data-formtype="add"
+                    [videoTime]="videoTime">
+        </chord-form>
+        <chord-form
+                    *ngSwitchCase="'edit-chord'"
+                    data-formtype="edit"
+                    [videoTime]="videoTime">
+        </chord-form>
+        <song-form 
+                    *ngSwitchCase="'add-song'"
+                    data-formtype="add">
+        </song-form>
+        <song-form  
+                    *ngSwitchCase="'edit-song'"
+                    data-formtype="edit">
+        </song-form>
       </div>
     </div>
     <div #chordSlider class="chord-slider">
