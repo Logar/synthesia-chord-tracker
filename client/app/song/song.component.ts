@@ -86,7 +86,7 @@ implements OnInit {
 
   public assignChordModels(httpData: Array<Object>) {
     return httpData.map((element: Object) => {
-      return Object.assign(new Chord("", "", 0, "", ""), element);
+      return Object.assign(new Chord(), element);
     });
   }
 
@@ -96,7 +96,7 @@ implements OnInit {
 
   public assignSongModels(httpData: Array<Object>) {
     return httpData.map((element: Object) => {
-      return Object.assign(new Song("", "", "", ""), element);
+      return Object.assign(new Song(), element);
     });
   }
 

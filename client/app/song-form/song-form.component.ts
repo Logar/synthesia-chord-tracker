@@ -45,7 +45,7 @@ export class SongFormComponent extends AbstractObserver {
     this.submitted = false;
 
     if (this.formType === 'add') {
-      this.songModel = new Song(null, null, null, null);
+      this.songModel = new Song();
       this.bgColor = 'var(--light-purple)';
     }
     else if (this.formType === 'edit') {

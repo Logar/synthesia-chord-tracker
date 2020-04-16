@@ -48,9 +48,7 @@ export class ChordFormComponent extends AbstractObserver {
       this.chordModel = new Chord(
         null,
         this.appState.activeSong._id, 
-        this.videoTime, 
-        null, 
-        null
+        this.videoTime
       );
     }
     else if (this.formType === 'edit') {
