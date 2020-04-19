@@ -161,14 +161,14 @@ implements OnInit {
       this._chordService.deleteChord(
         chord.getAttribute('id')
       ).subscribe(
-        super.observable(
-          this.toast.setMessage.bind(
-            this.toast,
-            'Deleted chord.',
-            'success'
+          super.observable(
+            this.toast.setMessage.bind(
+              this.toast,
+              'Deleted chord.',
+              'success'
+            )
           )
-        )
-    );
+      );
       chord.remove();
     }
   }
