@@ -6,6 +6,8 @@ import {
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
 
+import { ToastComponent } from '../shared/toast/toast.component';
+
 import { Chord } from '../shared/models/chord.model';
 import { Song } from '../shared/models/song.model';
 
@@ -34,7 +36,8 @@ export class ChordFormComponent extends AbstractObserver {
     protected _songService: SongService,
     protected _chordService: ChordService,
     public appState: AppState,
-    public element: ElementRef
+    public element: ElementRef,
+    public toast: ToastComponent
   ) {
     // Invoke parent class constructor
     super();
@@ -66,7 +69,14 @@ export class ChordFormComponent extends AbstractObserver {
     switch(this.formType) {
       case 'add':
         this._chordService.addChord(this.chordModel).subscribe(
-          super.observable(this.addChordCallback)
+          super.observable(
+            this.addChordCallback,
+            this.toast.setMessage.bind(
+              this.toast,
+              'Added your new chord.',
+              'success'
+            )
+          )
         );
         break;
     }
