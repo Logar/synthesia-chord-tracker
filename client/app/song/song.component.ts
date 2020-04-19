@@ -33,6 +33,7 @@ implements OnInit {
   songModels: Song[];
   chordModels: Chord[];
   activeSong: Song;
+  activeChord: any;
 
   toggleForms: string;
   
@@ -127,28 +128,25 @@ implements OnInit {
     const videoTime = this.videoTime = event.srcElement.currentTime;
 
     const domElements: any = Array.from(this.chordSlider.nativeElement.children);
-    domElements.sort((a: any, b: any) => {
-      const prev = a.getAttribute('data-timestamp');
-      const current = b.getAttribute('data-timestamp');
-      return Math.abs(videoTime - prev) - Math.abs(videoTime - current)
-    });
-
-    domElements.forEach((ele: HTMLElement, index: number) => {
-      if (index === 0) {
+    if (domElements.length > 0) {
+      // Sort by closest timestamp to video time
+      domElements.sort((a: any, b: any) => {
+        const prev = a.getAttribute('data-timestamp');
+        const current = b.getAttribute('data-timestamp');
+        return Math.abs(videoTime - prev) - Math.abs(videoTime - current);
+      });
+      // Compensate closest timestamp by substracting by 0.3 
+      if (domElements[0].getAttribute('data-timestamp') - 0.3 <= videoTime) {
         // Scroll to current chord and center horizontally
-        ele.scrollIntoView({
+        domElements[0].scrollIntoView({
           behavior: 'auto',
           block: 'nearest',
           inline: 'center'
         });
-        // Highlight chord that matches video time
-        ele.style.backgroundColor = 'var(--dark-purple)';
+        // Active chord is initialized to closest
+        this.activeChord = domElements[0];
       }
-      else {
-        // Change color back to default
-        ele.style.backgroundColor = 'var(--medium-purple)';
-      }
-    });
+    }
   }
 
   public onDeleteChord(event: any): void {

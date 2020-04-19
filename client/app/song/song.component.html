@@ -92,8 +92,10 @@
     <div #chordSlider class="chord-slider">
         <div
             *ngFor="let chord of chordModels"
+            [ngStyle]="chord._id === activeChord?.id && 
+              { 'background-color': 'var(--dark-purple)' }"
             id="{{chord._id}}"
-            [attr.data-timestamp]="chord.timestamp" 
+            [attr.data-timestamp]="chord.timestamp"
             class="cell">
             <a *ngIf="toggleEditMode" href="#" (click)="onDeleteChord($event)">
               <svg class="bi bi-trash trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
