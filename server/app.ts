@@ -8,7 +8,7 @@ import setRoutes from './routes';
 
 const app = express();
 dotenv.config();
-app.set('title', 'Portofolio');
+app.set('title', 'Synthesia Chord Tracker');
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, '../public')));
