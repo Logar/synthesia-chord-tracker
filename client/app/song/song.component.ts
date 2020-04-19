@@ -7,6 +7,8 @@ import {
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
 
+import { ToastComponent } from '../shared/toast/toast.component';
+
 import { Song } from '../shared/models/song.model';
 import { Chord } from '../shared/models/chord.model';
 
@@ -41,7 +43,8 @@ implements OnInit {
   public constructor(
     protected _songService: SongService,
     protected _chordService: ChordService,
-    public appState: AppState
+    public appState: AppState,
+    public toast: ToastComponent
   ) {
     // Invoke parent class constructor
     super();
@@ -155,7 +158,17 @@ implements OnInit {
 
     const userAction = confirm('This will permanently delete the chord. Are you sure?');
     if (userAction) {
-      this._chordService.deleteChord(chord.getAttribute('id')).subscribe();
+      this._chordService.deleteChord(
+        chord.getAttribute('id')
+      ).subscribe(
+        super.observable(
+          this.toast.setMessage.bind(
+            this.toast,
+            'Deleted chord.',
+            'success'
+          )
+        )
+    );
       chord.remove();
     }
   }
