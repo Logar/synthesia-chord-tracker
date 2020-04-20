@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { SongComponent } from './song/song.component';
 import { SongFormComponent } from './song-form/song-form.component';
 import { ChordFormComponent } from './chord-form/chord-form.component';
+import { ChordSliderComponent } from './chord-slider/chord-slider.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -48,6 +49,7 @@ export function tokenGetter() {
     AdminComponent,
     NotFoundComponent,
     ChordFormComponent,
+    ChordSliderComponent,
     VideoTimePipe,
     ChordPipe
   ],
