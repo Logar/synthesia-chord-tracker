@@ -4,6 +4,7 @@ import {
 
 import * as cloneDeep from 'lodash/cloneDeep';
 
+import { ToastComponent } from '../shared/toast/toast.component';
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
 
 import { SongService } from '../services/song.service';
@@ -34,7 +35,8 @@ export class SongFormComponent extends AbstractObserver {
   public constructor(
     protected _songService: SongService,
     public appState: AppState,
-    public element: ElementRef
+    public element: ElementRef,
+    public toast: ToastComponent
   ) {
     // Invoke parent class constructor
     super();
@@ -45,7 +47,7 @@ export class SongFormComponent extends AbstractObserver {
     this.submitted = false;
 
     if (this.formType === 'add') {
-      this.songModel = new Song(null, null, null, null);
+      this.songModel = new Song();
       this.bgColor = 'var(--light-purple)';
     }
     else if (this.formType === 'edit') {
@@ -85,19 +87,33 @@ export class SongFormComponent extends AbstractObserver {
   }
 
   public onSubmitSong(): void {
-    console.clear();
-    console.log(this.formType, this.songModel);
     this.submitted = true;
     switch(this.formType) {
       case 'add':
         this._songService.addSong(
           this.songModel
-        ).subscribe();
+        ).subscribe(
+            super.observable(
+              this.toast.setMessage.bind(
+                this.toast,
+                'Added your new chord.',
+                'success'
+              )
+            )
+        );
         break;
       case 'edit':
         this._songService.editSong(
           this.songModel
-        ).subscribe();
+        ).subscribe(
+            super.observable(
+              this.toast.setMessage.bind(
+                this.toast,
+                'Your changes were saved.',
+                'success'
+              )
+            )
+        );
         break;
     }
   }

@@ -7,6 +7,8 @@ import {
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
 
+import { ToastComponent } from '../shared/toast/toast.component';
+
 import { Song } from '../shared/models/song.model';
 import { Chord } from '../shared/models/chord.model';
 
@@ -26,17 +28,12 @@ implements OnInit {
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
-  @ViewChild('chordSlider') chordSlider: ElementRef;
 
   songModels: Song[];
   chordModels: Chord[];
   activeSong: Song;
 
-  toggleAddSongForm: boolean;
-  toggleEditSongForm: boolean;
-  toggleAddChordForm: boolean;
-  toggleEditChordForm: boolean;
-  
+  toggleForms: string;
   videoTime: number;
   // Toggle for editing chord data
   toggleEditMode: boolean;
@@ -44,18 +41,12 @@ implements OnInit {
   public constructor(
     protected _songService: SongService,
     protected _chordService: ChordService,
-    public appState: AppState
+    public appState: AppState,
+    public toast: ToastComponent
   ) {
     // Invoke parent class constructor
     super();
 
-    this.toggleEditMode = false;
-    this.toggleEditSongForm = false;
-    this.toggleEditChordForm = false;
-    this.toggleAddSongForm = false;
-    // Initialize to true so at least one form is shown by default
-    this.toggleAddChordForm = true;
-    
     this.songModels = Array();
     this.chordModels = Array();
     this.activeSong = Object();
@@ -96,7 +87,7 @@ implements OnInit {
 
   public assignChordModels(httpData: Array<Object>) {
     return httpData.map((element: Object) => {
-      return Object.assign(new Chord("", "", 0, "", ""), element);
+      return Object.assign(new Chord(), element);
     });
   }
 
@@ -106,7 +97,7 @@ implements OnInit {
 
   public assignSongModels(httpData: Array<Object>) {
     return httpData.map((element: Object) => {
-      return Object.assign(new Song("", "", "", ""), element);
+      return Object.assign(new Song(), element);
     });
   }
 
@@ -121,54 +112,9 @@ implements OnInit {
     );
   }
 
-  public toggleVisible(event: any): void {
-    const self = this;
-    const source = event.target;
-    const siblings = document.querySelectorAll(
-      `[name='${event.target.name}']`
-    );
-    siblings.forEach(ele => {
-      if (ele.id == source.id) 
-        self[source.id] = true;
-      else 
-        self[ele.id] = false;
-    });
-  }
-
   public onChangePlayback(event: any): void {
     this.video.nativeElement.playbackRate = event.target.value;
     // Stop event from bubbling
     event.stopPropagation();
-  }
-
-  public onChangeVideoTime(event: any): void {
-    // Stop event from bubbling
-    event.stopPropagation();
-    
-    const videoTime = this.videoTime = event.srcElement.currentTime;
-
-    const domElements: any = Array.from(this.chordSlider.nativeElement.children);
-    domElements.sort((a: any, b: any) => {
-      const prev = a.firstChild.getAttribute('data-timestamp');
-      const current = b.firstChild.getAttribute('data-timestamp');
-      return Math.abs(videoTime - prev) - Math.abs(videoTime - current)
-    });
-
-    domElements.forEach((ele, index) => {
-      if (index === 0) {
-        // Scroll to current chord and center horizontally
-        ele.scrollIntoView({
-          behavior: 'auto',
-          block: 'nearest',
-          inline: 'center'
-        });
-        // Highlight chord that matches video time
-        ele.style.backgroundColor = 'var(--dark-purple)';
-      }
-      else {
-        // Change color back to default
-        ele.style.backgroundColor = 'var(--medium-purple)';
-      }
-    });
   }
 }

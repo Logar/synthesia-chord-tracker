@@ -1,8 +1,23 @@
 .alert {
-  bottom: 0;
-  left: 25%;
+  display: block;
+  position: fixed; 
+  top: -13px;
+  margin: 0 auto;
   opacity: .9;
-  position: fixed;
-  width: 50%;
+  width: 350px;
   z-index: 999;
+}
+::first-letter {
+  text-transform: capitalize;
+}
+.alert-header {
+  display: flex;
+  align-items: center;
+  color: #6c757d;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  padding: .25rem .75rem;
+}
+.alert-body {
+  text-align: left;
+  padding: .25rem .75rem;
 }

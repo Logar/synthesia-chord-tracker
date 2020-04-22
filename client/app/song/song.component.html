@@ -6,8 +6,8 @@
           (change)="onChangeSong($event)">
     <option
         *ngFor="let item of songModels"
-        value="{{item._id}}">
-        {{item.title}}
+        [value]="item._id">
+        {{ item.title }}
     </option>
   </select>
   <div class="card-body">
@@ -38,7 +38,7 @@
         </select>
       </div>
     </div>
-    <div *ngIf="toggleEditMode">
+    <div id="edit-forms-container" *ngIf="toggleEditMode">
       <div id="button-container" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label
                 class="btn btn-secondary"
@@ -46,9 +46,7 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleAddChordForm"
-                  (click)="toggleVisible($event)"
-                  autocomplete="off">
+                  (click)="toggleForms='add-chord'">
           Add Chord
         </label>
         <label
@@ -57,9 +55,7 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleAddSongForm"
-                  (click)="toggleVisible($event)"
-                  autocomplete="off">
+                  (click)="toggleForms='add-song'">
           Add Song
         </label>
         <label
@@ -68,52 +64,35 @@
           <input
                   type="radio" 
                   name="toggleForms"
-                  id="toggleEditSongForm"
-                  (click)="toggleVisible($event)"
-                  autocomplete="off">
+                  (click)="toggleForms='edit-song'">
           Edit Song
         </label>
       </div>
-      <div *ngIf="toggleAddChordForm">
-        <chord-form [videoTime]="videoTime" data-formtype="add"></chord-form>
-      </div>
-      <div *ngIf="toggleEditChordForm">
-        <chord-form [videoTime]="videoTime" data-formtype="edit"></chord-form>
-      </div>
-      <div *ngIf="toggleAddSongForm">
-        <song-form data-formtype="add"></song-form>
-      </div>
-      <div *ngIf="toggleEditSongForm">
-        <song-form data-formtype="edit"></song-form>
+      <div [ngSwitch]="toggleForms">
+        <chord-form
+                    *ngSwitchDefault="'add-chord'"
+                    data-formtype="add"
+                    [videoTime]="videoTime">
+        </chord-form>
+        <chord-form
+                    *ngSwitchCase="'edit-chord'"
+                    data-formtype="edit"
+                    [videoTime]="videoTime">
+        </chord-form>
+        <song-form 
+                    *ngSwitchCase="'add-song'"
+                    data-formtype="add">
+        </song-form>
+        <song-form  
+                    *ngSwitchCase="'edit-song'"
+                    data-formtype="edit">
+        </song-form>
       </div>
     </div>
-    <div #chordSlider class="chord-slider">
-        <div
-            *ngFor="let chord of chordModels"
-            class="cell">
-            <div 
-                  id="{{chord._id}}"
-                  [attr.data-timestamp]="chord.timestamp" 
-                  [innerHTML]="chord | formatChord">
-            </div>
-        </div>
-    </div>
-    <video
-            *ngIf="activeSong.videoSrc"
-            #video 
-            id="videoContainer"
-            (timeupdate)="onChangeVideoTime($event)"
-            class="video"
-            [controls]="true"
-            [muted]="true"
-            [src]="activeSong.videoSrc">
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a
-        web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank">
-          supports HTML5 video
-        </a>
-      </p>
-      <!-- original resolution = 1280 x 720 -->
-    </video>
+    <chord-slider
+      [chordModels]="chordModels"
+      [videoTime]="videoTime"
+      [activeSong]="activeSong"
+      [toggleEditMode]="toggleEditMode">
+    </chord-slider>
 </div>
