@@ -2,4 +2,13 @@
   #type-select {
     background-color: var(--indigo);
   }
+  #toggle-alias {
+    position: absolute;
+    bottom: 0px;
+    left: 15px;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }

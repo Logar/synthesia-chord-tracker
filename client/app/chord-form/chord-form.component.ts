@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
-
 import { ToastComponent } from '../shared/toast/toast.component';
 
 import { Chord } from '../shared/models/chord.model';
@@ -30,6 +29,7 @@ export class ChordFormComponent extends AbstractObserver {
   @Input() videoTime: number;
 
   submitted: boolean;
+  showAlias: boolean;
   formType: string;
 
   public constructor(
@@ -46,6 +46,7 @@ export class ChordFormComponent extends AbstractObserver {
     this.formType = element.nativeElement.getAttribute("data-formtype");
     // Reset form submitted to false
     this.submitted = false;
+    this.showAlias = false;
 
     if (this.formType === 'add') {
       this.chordModel = new Chord(
