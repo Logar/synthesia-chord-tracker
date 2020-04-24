@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Song } from './shared/models/song.model';
 import { Chord } from './shared/models/chord.model';
@@ -12,10 +13,20 @@ export class AppState {
   private _chordModels: Chord[];
   private _activeSong: Song;
   
+  private _videoTime: BehaviorSubject<number>;
+  public videoTime: Observable<number>;
+
   constructor() {
     this._songModels = Array();
     this._chordModels = Array();
     this._activeSong = Object();
+    // Initialize video time to zero
+    this._videoTime = new BehaviorSubject<number>(0);
+    this.videoTime = this._videoTime.asObservable();
+  }
+
+  changeVideoTime(time: number) {
+    this._videoTime.next(time)
   }
 
   get activeSong(): Song {
