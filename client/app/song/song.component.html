@@ -71,13 +71,11 @@
       <div [ngSwitch]="toggleForms">
         <chord-form
                     *ngSwitchDefault="'add-chord'"
-                    data-formtype="add"
-                    [videoTime]="videoTime">
+                    data-formtype="add">
         </chord-form>
         <chord-form
                     *ngSwitchCase="'edit-chord'"
-                    data-formtype="edit"
-                    [videoTime]="videoTime">
+                    data-formtype="edit">
         </chord-form>
         <song-form 
                     *ngSwitchCase="'add-song'"
@@ -91,7 +89,6 @@
     </div>
     <chord-slider
       [chordModels]="chordModels"
-      [videoTime]="videoTime"
       [activeSong]="activeSong"
       [toggleEditMode]="toggleEditMode">
     </chord-slider>

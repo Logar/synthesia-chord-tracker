@@ -3,9 +3,9 @@ import {
   Input,
   ElementRef
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
-
 import { ToastComponent } from '../shared/toast/toast.component';
 
 import { Chord } from '../shared/models/chord.model';
@@ -27,10 +27,11 @@ export class ChordFormComponent extends AbstractObserver {
   chordModel: Chord;
   activeSong: Song;
 
-  @Input() videoTime: number;
-
   submitted: boolean;
+  showAlias: boolean;
   formType: string;
+  videoTime: number;
+  videoTimeSubscription: Subscription;
 
   public constructor(
     protected _songService: SongService,
@@ -46,6 +47,7 @@ export class ChordFormComponent extends AbstractObserver {
     this.formType = element.nativeElement.getAttribute("data-formtype");
     // Reset form submitted to false
     this.submitted = false;
+    this.showAlias = false;
 
     if (this.formType === 'add') {
       this.chordModel = new Chord(
@@ -57,6 +59,15 @@ export class ChordFormComponent extends AbstractObserver {
     else if (this.formType === 'edit') {
       // @todo implement
     }
+  }
+
+  ngOnInit() {
+    this.videoTimeSubscription = 
+      this.appState.videoTime.subscribe(time => this.videoTime = time);
+  }
+
+  ngOnDestroy() {
+    this.videoTimeSubscription.unsubscribe();
   }
 
   public onSubmitChord(): void {

@@ -1,6 +1,7 @@
 import { 
   Component, ViewChild, ElementRef, Input
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AbstractObserver } from '../shared/abstract/observer.abstract';
 import { ToastComponent } from '../shared/toast/toast.component';
@@ -9,6 +10,7 @@ import { Song } from '../shared/models/song.model';
 import { Chord } from '../shared/models/chord.model';
 
 import { ChordService } from '../services/chord.service';
+import { AppState } from '../app.state';
 
 @Component({
   selector: 'chord-slider',
@@ -23,27 +25,39 @@ extends AbstractObserver {
   @Input() chordModels: Chord[];
   @Input() activeSong: Song;
   @Input() toggleEditMode: boolean;
-  @Input() videoTime: number;
 
   // Access video DOM
   @ViewChild('video') video: ElementRef;
   @ViewChild('chordSlider') chordSlider: ElementRef;
 
   activeChord: any;
+  videoTime: number;
+  videoTimeSubscription: Subscription;
 
   public constructor(
     protected _chordService: ChordService,
-    public toast: ToastComponent
+    public toast: ToastComponent,
+    public appState: AppState
   ) {
     // Invoke parent class constructor
     super();
+  }
+
+  ngOnInit() {
+    this.videoTimeSubscription = 
+      this.appState.videoTime.subscribe(time => this.videoTime = time);
+  }
+
+  ngOnDestroy() {
+    this.videoTimeSubscription.unsubscribe();
   }
 
   public onChangeVideoTime(event: any): void {
     // Stop event from bubbling
     event.stopPropagation();
     
-    const videoTime = this.videoTime = event.srcElement.currentTime;
+    const videoTime = event.srcElement.currentTime;
+    this.appState.changeVideoTime(videoTime);
 
     const domElements: any = Array.from(this.chordSlider.nativeElement.children);
     if (domElements.length > 0) {
